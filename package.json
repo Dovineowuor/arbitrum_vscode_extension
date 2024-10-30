@@ -1,0 +1,66 @@
+{
+  "name": "arbitrun-wizard",
+  "displayName": "Arbitrum Wizard",
+  "description": "Arbitrum Wizard extension is a Visual Studio Code extension designed to streamline the development of smart contracts on the Arbitrum blockchain. With an integrated FastAPI backend that leverages Hugging Face machine learning models, this tool provides intelligent code suggestions, reduces repetitive tasks, and enhances developer productivity.",
+  "version": "0.0.1",
+  "publisher": "your_publisher_name",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "arbitrun-wizard.helloWorld",
+        "title": "Arbitrum Wizard: Hello World"
+      },
+      {
+        "command": "arbitrun-wizard.generateContract",
+        "title": "Arbitrum Wizard: Generate Smart Contract Template"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "arbitrun-wizard.helloWorld",
+          "when": "editorLangId == solidity",
+          "group": "navigation"
+        },
+        {
+          "command": "arbitrun-wizard.generateContract",
+          "when": "editorLangId == solidity",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.13.0",
+    "webpack": "^5.76.0",
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "ethers": "^6.13.4",
+    "fs-extra": "^10.0.0",
+    "inquirer": "^12.0.1"
+  }
+}
