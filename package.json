@@ -1,0 +1,24 @@
+{
+  "name": "smart-contract-ai",
+  "displayName": "Smart Contract AI",
+  "description": "An intelligent VS Code extension for smart contract developers integrated with AI.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "activationEvents": [
+    "onCommand:extension.smartContractAI"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.smartContractAI",
+        "title": "Smart Contract AI"
+      }
+    ]
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
