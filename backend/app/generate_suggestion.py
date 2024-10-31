@@ -1,13 +1,22 @@
 from transformers import pipeline
 import time
 from huggingface_hub import login
-import os 
+import os
 import dotenv
+import torch
+
+# Load environment variables
+dotenv.load_dotenv()
+
 # Login to Hugging Face Hub if needed
 login(os.getenv('HF_TOKEN'))
 
 # Initialize a model that doesn’t require flash_attn
-generator = pipeline("text-generation", model="EleutherAI/gpt-neo-2.7B")
+model_name = "EleutherAI/gpt-neo-2.7B"
+
+# Check for GPU availability and set the device accordingly
+device = 0 if torch.cuda.is_available() else -1
+generator = pipeline("text-generation", model=model_name, device=device)
 
 def generate_suggestion(prompt, retries=3, delay=2):
     """Generates a response using Hugging Face's text generation model with retry on error."""
