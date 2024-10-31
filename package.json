@@ -23,6 +23,10 @@
       {
         "command": "arbitrun-wizard.generateContract",
         "title": "Arbitrum Wizard: Generate Smart Contract Template"
+      },
+      {
+        "command": "extension.smartContractAI",
+        "title": "Smart Contract AI"
       }
     ],
     "menus": {
@@ -58,6 +62,7 @@
     "webpack-cli": "^5.0.2"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "chalk": "^4.1.2",
     "ethers": "^6.13.4",
     "fs-extra": "^10.0.0",
