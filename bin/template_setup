@@ -1,0 +1,165 @@
+#!/bin/bash
+
+# Project name and path
+PROJECT_NAME="arbitrum_project"
+TEMPLATE_PATH="./templates/dapp"
+
+# Create the main project directory
+echo "Creating project directory at ./$PROJECT_NAME..."
+mkdir -p "$PROJECT_NAME"
+
+# Create subdirectories
+echo "Creating subdirectories..."
+mkdir -p "$PROJECT_NAME/contracts"
+mkdir -p "$PROJECT_NAME/backend"
+mkdir -p "$PROJECT_NAME/frontend/src"
+mkdir -p "$PROJECT_NAME/scripts"
+mkdir -p "$PROJECT_NAME/docs"
+
+# Create content for contracts
+echo "Creating Solidity contract file..."
+cat <<EOL > "$PROJECT_NAME/contracts/ERC20Token.sol"
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract ERC20Token {
+    string public name = "Arbitrum Token";
+    string public symbol = "ARB";
+    uint8 public decimals = 18;
+    uint256 public totalSupply;
+
+    mapping(address => uint256) public balanceOf;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+
+    constructor(uint256 _initialSupply) {
+        totalSupply = _initialSupply;
+        balanceOf[msg.sender] = _initialSupply;
+    }
+
+    function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(balanceOf[msg.sender] >= _value);
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
+        return true;
+    }
+}
+EOL
+
+# Create content for backend
+echo "Creating FastAPI backend files..."
+cat <<EOL > "$PROJECT_NAME/backend/main.py"
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+EOL
+
+cat <<EOL > "$PROJECT_NAME/backend/requirements.txt"
+fastapi
+uvicorn
+EOL
+
+# Create content for frontend
+echo "Creating frontend files..."
+cat <<EOL > "$PROJECT_NAME/frontend/package.json"
+{
+  "name": "arbitrum-frontend",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
+EOL
+
+cat <<EOL > "$PROJECT_NAME/frontend/src/App.js"
+import React from 'react';
+
+function App() {
+  return (
+    <div>
+      <h1>Welcome to Arbitrum DApp</h1>
+    </div>
+  );
+}
+
+export default App;
+EOL
+
+# Create content for scripts
+echo "Creating deployment script..."
+cat <<EOL > "$PROJECT_NAME/scripts/deploy.js"
+// This script will handle the deployment of your contracts
+console.log("Deploying contracts...");
+EOL
+
+# Create content for documentation
+echo "Creating README file..."
+cat <<EOL > "$PROJECT_NAME/docs/README.md"
+# Arbitrum DApp Project
+
+This is a template project for developing DApps on the Arbitrum blockchain.
+
+## Project Structure
+
+- **contracts/**: Contains Solidity smart contracts.
+- **backend/**: Contains the FastAPI backend.
+- **frontend/**: Contains the React frontend.
+- **scripts/**: Contains deployment scripts.
+- **docs/**: Contains documentation files.
+
+## Getting Started
+
+1. Clone the repository.
+2. Install dependencies for backend:
+   \`\`\`bash
+   cd backend
+   pip install -r requirements.txt
+   \`\`\`
+3. Install dependencies for frontend:
+   \`\`\`bash
+   cd frontend
+   npm install
+   \`\`\`
+4. Run the backend:
+   \`\`\`bash
+   uvicorn main:app --reload
+   \`\`\`
+5. Run the frontend:
+   \`\`\`bash
+   npm start
+   \`\`\`
+EOL
+
+echo "Project setup complete!"
