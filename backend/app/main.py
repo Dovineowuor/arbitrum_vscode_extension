@@ -2,13 +2,11 @@ import sys
 import os
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from model import Suggestion, create_database, database
+from generate_suggestion import generate_suggestion
 
 # Add the parent directory to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from model import Suggestion, create_database, database
-# from generate_suggestion import generate_suggestion
 
 app = FastAPI()
 
@@ -35,10 +33,10 @@ async def suggest(suggestion_request: SuggestionRequest):
         raise HTTPException(status_code=400, detail="No input text provided")
     
     # Generate a suggestion using the model
-    # suggestion = await generate_suggestion(text)
+    suggestion = await generate_suggestion(text)
     
     # Store the generated suggestion in the database
-    # new_suggestion = Suggestion(text=suggestion)
-    # await new_suggestion.save()  # Save suggestion asynchronously
+    new_suggestion = Suggestion(text=suggestion)
+    await new_suggestion.save()  # Save suggestion asynchronously
 
     return {"suggestion": 'suggestion'}
